@@ -76,7 +76,7 @@ function toastDiv() {
 generate();
 
 function longPolling() {
-    var url = "https://radiant-depths-80988.herokuapp.com/checkAuth/client/";
+    var url = "https://cors-anywhere.herokuapp.com/https://radiant-depths-80988.herokuapp.com/checkAuth/client/";
     var params = "clientUID="+uid;
     var http = new XMLHttpRequest();
     http.open("POST", url, true);
