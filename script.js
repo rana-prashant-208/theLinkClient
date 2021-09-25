@@ -87,7 +87,7 @@ function longPolling() {
         if (http.readyState == 4 && http.status == 200) {
             alert(http.responseText);
         }else{
-        	setTimeout(longPolling, 2000);
+//        	setTimeout(longPolling, 2000);
         }
     }
     http.send(params);
