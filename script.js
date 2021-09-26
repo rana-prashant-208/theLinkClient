@@ -41,19 +41,22 @@ function sendData(data) {
 }
 
 function getData() {
-    database.ref("UserTemp/" + uid + "/PHONE").get().then((snapshot) => {
-        if (snapshot.exists()) {
-            var val = snapshot.val();
-            if (val.source == "Mobile") {
-                console.log("data " + val.text);
-                alert(val.text);
+        var url = "https://radiant-depths-80988.herokuapp.com/client/getData/";
+        var params = "localStorage="+localStorage.getItem("authToken");
+        console.log("calling get data with "+params);
+        var http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        //Send the proper header information along with the request
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        http.setRequestHeader("Access-Control-Allow-Origin", "*");
+        http.setRequestHeader("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+        http.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+        http.onreadystatechange = function() { //Call a function when the state changes.
+            if (http.readyState == 4 && http.status == 200) {
+                alert(http.responseText);
             }
-        } else {
-            console.log("No data available");
         }
-    }).catch((error) => {
-        console.log(error);
-    });
+        http.send(params);
 }
 
 function generate() {
@@ -87,9 +90,10 @@ function longPolling() {
     http.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
     http.onreadystatechange = function() { //Call a function when the state changes.
         if (http.readyState == 4 && http.status == 200) {
-        if(http.responseText=="Authenticated"){
+        if(http.responseText!="Unauthorized"){
                  console.log("setting uid " + uid);
                  localStorage.setItem("uid", uid);
+                 localStorage.setItem("authToken", http.responseText);
                  console.log(http.responseText);
                  untoast.className = "show";
                  qrcode.className = qrcode.className.replace("show", "");
@@ -100,34 +104,33 @@ function longPolling() {
                      untoast.className = untoast.className.replace("show", "");
                      qrcode.className = "show";
                      helpCard.className = "show";
-                                 setTimeout(longPolling, 30000);
+                                 setTimeout(longPolling, 10000);
             }
-//            setTimeout(longPolling, 10000);
         }else{
-//        	setTimeout(longPolling, 10000);
+        	setTimeout(longPolling, 10000);
         }
     }
     http.send(params);
-    // if (snapshot.exists()) {
-    //     console.log("setting uid " + uid);
-    //     localStorage.setItem("uid", uid);
-    //     console.log(data);
-    //     untoast.className = "show";
-    //     qrcode.className = qrcode.className.replace("show", "");
-    //     helpCard.className = helpCard.className.replace("show", "");
-    // } else {
-    //     console.log("setting uid null");
-    //     localStorage.setItem("uid", null);
-    //     untoast.className = untoast.className.replace("show", "");
-    //     qrcode.className = "show";
-    //     helpCard.className = "show";
-    // }
+
 }
 
 function logout() {
+    var url = "https://radiant-depths-80988.herokuapp.com/client/logout";
+    var params = "clientUID="+uid;
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    //Send the proper header information along with the request
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.setRequestHeader("Access-Control-Allow-Origin", "*");
+    http.setRequestHeader("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+    http.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+    http.onreadystatechange = function() { //Call a function when the state changes.
+        if (http.readyState == 4 && http.status == 200) {
+               console.log("logout for id done");
+        }
+    }
+    http.send(params);
     console.log("logout for id " + uid);
-    var starCountRef = database.ref("UserTemp").child(uid);
-    starCountRef.remove();
     uid = new Date().getTime();
     console.log("setting uid null in logout");
     localStorage.setItem("uid", null);
