@@ -42,7 +42,7 @@ function sendData(data) {
 
 function getData() {
         var url = "https://radiant-depths-80988.herokuapp.com/client/getData/";
-        var params = "localStorage="+localStorage.getItem("authToken");
+        var params = "authToken="+localStorage.getItem("authToken");
         console.log("calling get data with "+params);
         var http = new XMLHttpRequest();
         http.open("POST", url, true);
