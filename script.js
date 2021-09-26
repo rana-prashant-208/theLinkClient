@@ -106,8 +106,6 @@ function longPolling() {
                      helpCard.className = "show";
                                  setTimeout(longPolling, 10000);
             }
-        }else{
-        	setTimeout(longPolling, 10000);
         }
     }
     http.send(params);
