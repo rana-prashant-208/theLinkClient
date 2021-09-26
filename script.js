@@ -100,6 +100,7 @@ function longPolling() {
                      untoast.className = untoast.className.replace("show", "");
                      qrcode.className = "show";
                      helpCard.className = "show";
+                                 setTimeout(longPolling, 60000);
             }
 //            setTimeout(longPolling, 10000);
         }else{
