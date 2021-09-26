@@ -90,7 +90,7 @@ function longPolling() {
         if(http.responseText=="Authenticated"){
                  console.log("setting uid " + uid);
                  localStorage.setItem("uid", uid);
-                 console.log(data);
+                 console.log(http.responseText);
                  untoast.className = "show";
                  qrcode.className = qrcode.className.replace("show", "");
                  helpCard.className = helpCard.className.replace("show", "");
@@ -100,7 +100,7 @@ function longPolling() {
                      untoast.className = untoast.className.replace("show", "");
                      qrcode.className = "show";
                      helpCard.className = "show";
-                                 setTimeout(longPolling, 60000);
+                                 setTimeout(longPolling, 30000);
             }
 //            setTimeout(longPolling, 10000);
         }else{
