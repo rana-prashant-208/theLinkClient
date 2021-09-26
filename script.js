@@ -87,10 +87,10 @@ function longPolling() {
     http.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
     http.onreadystatechange = function() { //Call a function when the state changes.
         if (http.readyState == 4 && http.status == 200) {
-        if(http.responseText=="Failed")
-            setTimeout(longPolling, 5000);
+        if(http.responseText=="Unauthorized")
+            setTimeout(longPolling, 10000);
         }else{
-        	setTimeout(longPolling, 5000);
+        	setTimeout(longPolling, 10000);
         }
     }
     http.send(params);
